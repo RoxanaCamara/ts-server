@@ -1,40 +1,12 @@
-import { Request, Response } from "express"
+import { Router } from "express";
+import { deleteUsuario, getUsuarios, postUsuario, putUsuario } from "../controllers/usuarios";
 
-export const getUsuario =(request: Request, response: Response)=> {
-    const { id }= request.params
+const router =  Router()
 
-    response.json({
-        msg: 'get usuario',
-        id
-    })
-}
+router.get('/', getUsuarios)
+router.post('/', postUsuario)
+router.put('/:id', putUsuario)
+router.delete('/:id', deleteUsuario)
 
 
-export const postUsuario =(request: Request, response: Response)=> {
-    const { body }= request
-
-    response.json({
-        msg: 'post usuario',
-        body
-    })
-}
-
-export const putUsuario =(request: Request, response: Response)=> {
-    const { id }= request.params
-    const { body }= request
-
-    response.json({
-        msg: 'put usuario',
-        id,
-        body
-    })
-}
-
-export const deleteUsuario =(request: Request, response: Response)=> {
-    const { id }= request.params
-
-    response.json({
-        msg: 'delete usuario',
-        id
-    })
-}
+export default router
