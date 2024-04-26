@@ -1,12 +1,21 @@
-# ts-server
+## What need install to start ts-server?
 
-##### 
-como iniciar el proyecto, que compile ts y que ejecute el codigo, un cmd para  cada comando
-1. tsc --watch
-2. nodemon dist/app.js
+```bash
+npm i -g typescript
+```
 
+## How start ts-server?
 
+```bash
+tsc --watch
+```
 
-----
-1. post body no apare
-2. jocalhost html no aparece
+## What version of node use?
+
+```bash
+v18.15.11
+```
+
+## What DB use?
+
+Use MySql and TablePlus
