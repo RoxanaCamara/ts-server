@@ -1,12 +1,10 @@
-import { Sequelize } from 'sequelize';
+import { Sequelize } from "sequelize";
 
-const NAME_DB = process.env.NAME_DB || '';
-const USER = process.env.USER || '';
-const PASSWORD = process.env.PASSWORD || '';
 
-const db = new Sequelize(NAME_DB, USER, PASSWORD, {
-    host: 'localhost',
+const db = new Sequelize('node', 'root', 'Magikarp007',
+   { host: '192.168.0.63',
     dialect: 'mysql',
-});
+    port: 3306,}
+);
 
 export default db;
