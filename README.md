@@ -26,3 +26,9 @@ v18.15.11
 Use MySql and Worbetch
 
 Aplicar los midelwares del proyecto de node js
+
+# Tareas
+
+1. Agregar Swagger
+2. Socket Io
+3. deploy
