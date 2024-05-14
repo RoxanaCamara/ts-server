@@ -26,19 +26,31 @@ export const getUsuario = async (request: Request, response: Response) => {
 
 export const postUsuario = async (request: Request, response: Response) => {
     const { body } = request;
-    console.log('nare', body);
-    try {
-        const usuario = Usuario.build(body);
-        await usuario.save();
 
-        response.json({
-            msg: `Se pudo crear el usuario`,
-            usuario,
+    const existeEmail = await Usuario.findOne({
+        where: {
+            email: body.email,
+        },
+    });
+
+    if (existeEmail) {
+        response.status(400).json({
+            msg: 'Ya existe un usuario con el email ' + body.email,
         });
-    } catch (error) {
-        response.status(500).json({
-            msg: `No se pudo crear el usuario`,
-        });
+    } else {
+        try {
+            const usuario = Usuario.build(body);
+            await usuario.save();
+
+            response.json({
+                msg: `Se pudo crear el usuario`,
+                usuario,
+            });
+        } catch (error) {
+            response.status(500).json({
+                msg: `No se pudo crear el usuario`,
+            });
+        }
     }
 };
 
