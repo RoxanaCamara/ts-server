@@ -54,22 +54,54 @@ export const postUsuario = async (request: Request, response: Response) => {
     }
 };
 
-export const putUsuario = (request: Request, response: Response) => {
+export const putUsuario = async (request: Request, response: Response) => {
     const { id } = request.params;
     const { body } = request;
 
-    response.json({
-        msg: 'put usuario',
-        id,
-        body,
-    });
+    const usuario = await Usuario.findByPk(id);
+
+    if (!usuario) {
+        response.status(400).json({
+            msg: 'No existe un usuario con ese email ',
+        });
+    } else {
+        try {
+            await usuario.update(body);
+
+            response.json({
+                msg: `Se pudo actualizar el usuario`,
+                usuario,
+            });
+        } catch (error) {
+            response.status(500).json({
+                msg: `No se pudo crear el usuario`,
+            });
+        }
+    }
 };
 
-export const deleteUsuario = (request: Request, response: Response) => {
+export const deleteUsuario = async (request: Request, response: Response) => {
     const { id } = request.params;
 
-    response.json({
-        msg: 'delete usuario',
-        id,
-    });
+    const usuario = await Usuario.findByPk(id);
+
+    if (!usuario) {
+        response.status(400).json({
+            msg: 'No existe ese usuario ',
+        });
+    } else {
+        try {
+            await usuario.update({ state: 2});
+
+            response.json({
+                msg: `Se borro el usuario correctamente`,
+                usuario,
+            });
+        } catch (error) {
+            response.status(500).json({
+                msg: `No se puede borrar el usuario`,
+            });
+        }
+    }
+
 };
