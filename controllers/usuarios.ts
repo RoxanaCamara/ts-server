@@ -28,15 +28,14 @@ export const postUsuario = async (request: Request, response: Response) => {
     const { body } = request;
     console.log('nare', body);
     try {
-        const usuario = Usuario.build({ name: 'Luccy', email: 'luccy@gmail.com', state: 1 });
+        const usuario = Usuario.build(body);
         await usuario.save();
-       
+
         response.json({
             msg: `Se pudo crear el usuario`,
             usuario,
         });
     } catch (error) {
-        console.log('Nare', error);
         response.status(500).json({
             msg: `No se pudo crear el usuario`,
         });
