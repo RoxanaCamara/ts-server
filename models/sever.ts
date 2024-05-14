@@ -13,9 +13,9 @@ class Server {
     constructor() {
         this.app = express();
         this.port = process.env.PORT || '8008';
-        this.routers();
         this.middlewares();
         this.dbConnections();
+        this.routers();
     }
 
     routers() {
@@ -31,6 +31,7 @@ class Server {
     async dbConnections() {
         try {
             db.authenticate();
+            await db.sync();
             console.log('DB conection online');
         } catch (error) {
             throw new Error('error');

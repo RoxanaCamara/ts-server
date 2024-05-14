@@ -1,40 +1,64 @@
-import { Request, Response } from "express"
+import { Request, Response } from 'express';
+import Usuario from '../db/usuario';
 
-export const getUsuarios =(request: Request, response: Response)=> {
-    const { id }= request.params
-
+export const getUsuarios = async (request: Request, response: Response) => {
+    const usuarios = await Usuario.findAll();
     response.json({
-        msg: 'get usuario',
-        id
-    })
-}
+        msg: 'get usuarios',
+        usuarios,
+    });
+};
 
+export const getUsuario = async (request: Request, response: Response) => {
+    const { id } = request.params;
+    const usuario = await Usuario.findByPk(id);
 
-export const postUsuario =(request: Request, response: Response)=> {
-    const { body } = request
+    if (usuario) {
+        response.json({
+            msg: 'get usuario',
+            usuario,
+        });
+    }
+    response.status(404).json({
+        msg: `No existe un usuario con el id ${id}`,
+    });
+};
 
-    response.json({
-        msg: 'post usuario',
-        body
-    })
-}
+export const postUsuario = async (request: Request, response: Response) => {
+    const { body } = request;
+    console.log('nare', body);
+    try {
+        const usuario = Usuario.build({ name: 'Luccy', email: 'luccy@gmail.com', state: 1 });
+        await usuario.save();
+       
+        response.json({
+            msg: `Se pudo crear el usuario`,
+            usuario,
+        });
+    } catch (error) {
+        console.log('Nare', error);
+        response.status(500).json({
+            msg: `No se pudo crear el usuario`,
+        });
+    }
+};
 
-export const putUsuario =(request: Request, response: Response)=> {
-    const { id }= request.params
-    const { body }= request
+export const putUsuario = (request: Request, response: Response) => {
+    const { id } = request.params;
+    const { body } = request;
 
     response.json({
         msg: 'put usuario',
         id,
-        body
-    })
-}
+        body,
+    });
+};
 
-export const deleteUsuario =(request: Request, response: Response)=> {
-    const { id }= request.params
+export const deleteUsuario = (request: Request, response: Response) => {
+    const { id } = request.params;
 
     response.json({
         msg: 'delete usuario',
-        id
-    })
-}
+        id,
+    });
+};
