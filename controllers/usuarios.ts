@@ -11,17 +11,19 @@ export const getUsuarios = async (request: Request, response: Response) => {
 
 export const getUsuario = async (request: Request, response: Response) => {
     const { id } = request.params;
-    const usuario = await Usuario.findByPk(id);
-
-    if (usuario) {
-        response.json({
-            msg: 'get usuario',
-            usuario,
+    try {
+        const usuario = await Usuario.findByPk(id);
+        if (usuario) {
+            response.json({
+                msg: 'get usuario',
+                usuario,
+            });
+        }
+    } catch (error) {
+        response.status(404).json({
+            msg: `No existe un usuario con el id ${id}`,
         });
     }
-    response.status(404).json({
-        msg: `No existe un usuario con el id ${id}`,
-    });
 };
 
 export const postUsuario = async (request: Request, response: Response) => {
@@ -91,7 +93,7 @@ export const deleteUsuario = async (request: Request, response: Response) => {
         });
     } else {
         try {
-            await usuario.update({ state: 2});
+            await usuario.update({ state: 2 });
 
             response.json({
                 msg: `Se borro el usuario correctamente`,
@@ -103,5 +105,4 @@ export const deleteUsuario = async (request: Request, response: Response) => {
             });
         }
     }
-
 };
